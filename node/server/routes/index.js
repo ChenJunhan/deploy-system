@@ -1,7 +1,7 @@
 const Router = require('koa-router')
-const router = new Router()
+const router = new Router({ prefix: '/api' })
 
-const login = require('./server/controllers/login')
+const login = require('./user')
 
 router.get('/', async (ctx, next) => {
   ctx.body = 'index'
@@ -11,6 +11,6 @@ router.get('/test', async(ctx, next) => {
   ctx.body = 'test'
 })
 
-router.get('/login', login)
+router.use('/user', login.routes(), login.allowedMethods())
 
 module.exports = router
