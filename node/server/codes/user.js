@@ -12,9 +12,9 @@ const userCode = {
 
   ERROR_PASSWORD: '密码格式为6-16位',
 
-  ERROR_FAIL_PHONENUMBER_IS_EXIST: '该手机号码已经注册过',
+  ERROR_FAIL_USERNAME_IS_EXIST: '该用户名已经注册过',
 
-  ERROR_FAIL_USER_IS_NOT_EXIST: '该手机号码未注册',
+  ERROR_FAIL_USER_IS_NOT_EXIST: '该用户名未注册',
 
   ERROR_SYS: '系统错误',
 
