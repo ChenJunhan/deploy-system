@@ -31,7 +31,7 @@ module.exports = {
   },
 
   insertData(table, values) { 
-    let _sql = "REPLACE INTO ?? SET ?";
+    let _sql = "INSERT INTO ?? SET ?";
     return this.query(_sql, [table, values]);
   },
 
@@ -43,5 +43,10 @@ module.exports = {
   replaceData(table, values) {
     let _sql = 'REPLACE INTO ?? SET ?';
     return this.query(_sql, [table, values]);
+  },
+
+  queryData(table, option, values) {
+    let _sql = `SELECT * FROM ${table} where ${option} = ?`
+    return this.query(_sql, [values])
   }
 }

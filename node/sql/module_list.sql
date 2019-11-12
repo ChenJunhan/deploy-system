@@ -11,5 +11,6 @@ CREATE TABLE   IF NOT EXISTS  `module_list` (
   `directory` varchar(255) DEFAULT NULL, # 映射目录
   `u_id` int(11) DEFAULT NULL, # 分配人员id
   `allot_level` int(11) DEFAULT NULL, # 分配权限
+  `create_time` varchar(255) DEFAULT NULL # 创建时间
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

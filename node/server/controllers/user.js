@@ -2,7 +2,7 @@
  * @Author: ChenJunhan 
  * @Date: 2019-11-04 16:53:39 
  * @Last Modified by: ChenJunhan
- * @Last Modified time: 2019-11-08 17:17:32
+ * @Last Modified time: 2019-11-12 17:01:16
  * 登陆注册
  */
 
@@ -60,7 +60,7 @@ class User {
     let createResult = await userInfoService.create({
       name: formData['user_name'],
       password,
-      create_time: Date.now() / 1000,
+      create_time: Date.now(),
       level: formData['level']
     })
 
@@ -118,8 +118,11 @@ class User {
       ctx.body = result
       return
     }
-
-    ctx.session.user = formData['user_name']
+  
+    ctx.session = {
+      user: formData['user_name'],
+      u_id: userInfo['id']
+    }
     result.data = {
       user_name: userInfo.name,
       level: userInfo.level
