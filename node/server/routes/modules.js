@@ -6,5 +6,6 @@ const authorize = require('../utils/authorize')
 router.use(authorize)      // 验证登录
 .post('/add', modulesController.add)
 .post('/getModulesList', modulesController.getModulesList)
+.post('/getGitWarehouseHistory', modulesController.getGitWarehouseHistory)
 
 module.exports = router

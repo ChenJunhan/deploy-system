@@ -37,7 +37,8 @@ const modules = {
    * @returns
    */
   async getUserModuleList(uId) {
-    let result = await db.queryData('module_list', 'u_id', uId)
+    let _sql = 'SELECT * FROM module_list where u_id = ? OR allot_u_id = ?'
+    let result = await db.query(_sql, [uId, uId])
 
     if (!Array.isArray(result) || result.length === 0) {
       result = null

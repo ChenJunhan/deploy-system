@@ -2,11 +2,12 @@
  * @Author: ChenJunhan 
  * @Date: 2019-11-11 15:50:45 
  * @Last Modified by: ChenJunhan
- * @Last Modified time: 2019-11-12 17:58:26
+ * @Last Modified time: 2019-11-13 17:38:24
  * 模块管理
 */
 
 const bcrypt = require('bcrypt')
+const cmd = require('node-cmd')
 
 const moduleService = require('../services/modules')
 const resultModel = require('./model/callbackResult')
@@ -24,20 +25,21 @@ class modules {
    */
   static async add(ctx, next) {
     let formData = ctx.request.body
-    let result = resultModel
+    let result = JSON.parse(JSON.stringify(resultModel))
     let rules = {
-      'm_name': 'required',
-      'git_address': 'required',
-      'server_address': 'required',
-      'server_user': 'required',
-      'server_password': 'required',
-      'directory': 'required',
-      'u_id': 'required',
-      'allot_level': 'required'
+      m_name: 'required',
+      git_address: 'required',
+      server_address: 'required',
+      server_user: 'required',
+      server_password: 'required',
+      directory: 'required',
+      u_id: 'required',
+      allot_u_id: 'required',
+      allot_level: 'required'
     }
 
     // 验证请求参数
-    let msg = requestValidate(formData, rules, ctx)
+    let msg = requestValidate(formData, rules)
     if (msg) {
       result.message = msg
       ctx.body = result
@@ -81,16 +83,40 @@ class modules {
    * @memberof modules
    */
   static async getModulesList(ctx, next) {
-    let result = resultModel
+    let result = JSON.parse(JSON.stringify(resultModel))
+    let formData = ctx.request.body
+    let rules = {
+      u_id: 'required'
+    }
 
-    let queryResult = await moduleService.getUserModuleList(ctx.session.u_id)
+    // 验证请求参数
+    let msg = requestValidate(formData, rules)
+    if (msg) {
+      result.message = msg
+      ctx.body = result
+      return
+    }
 
+    // 根据u_id查询模块列表
+    let queryResult = await moduleService.getUserModuleList(formData['u_id'])
     if (queryResult) {
       result.success = true
       result.code = 0
       result.data = queryResult
-      ctx.body = result
     }
+    ctx.body = result
+  }
+
+
+  /**
+   * 获取git仓库历史记录
+   * @static
+   * @param {*} ctx
+   * @param {*} next
+   * @memberof modules
+   */
+  static async getGitWarehouseHistory(ctx, next) {
+    
   }
 }
 

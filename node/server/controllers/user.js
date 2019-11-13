@@ -2,7 +2,7 @@
  * @Author: ChenJunhan 
  * @Date: 2019-11-04 16:53:39 
  * @Last Modified by: ChenJunhan
- * @Last Modified time: 2019-11-12 17:01:16
+ * @Last Modified time: 2019-11-13 14:59:32
  * 登陆注册
  */
 
@@ -37,7 +37,7 @@ class User {
     }
 
     // 验证请求参数
-    let msg = requestValidate(formData, rules, ctx);
+    let msg = requestValidate(formData, rules);
     if (msg) {
       result.message = msg
       ctx.body = result
@@ -96,7 +96,7 @@ class User {
     }
     
     // 验证请求参数
-    let msg = requestValidate(formData, rules, ctx)
+    let msg = requestValidate(formData, rules)
     if (msg) { 
       result.message = msg
       ctx.body = result
