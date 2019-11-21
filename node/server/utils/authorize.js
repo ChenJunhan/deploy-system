@@ -4,7 +4,7 @@
 const resultModel = require('../controllers/model/callbackResult')
 
 module.exports = (ctx, next) => {
-  let result = resultModel
+  let result = JSON.parse(JSON.stringify(resultModel))
 
   if (!ctx.session.user) {
     result.code = 101

@@ -12,6 +12,7 @@ CREATE TABLE   IF NOT EXISTS  `module_list` (
   `u_id` int(11) DEFAULT NULL comment '管理员id', 
   `allot_u_id` int(11) DEFAULT NULL comment '分配人员id',  
   `allot_level` int(11) DEFAULT NULL comment '分配权限', # 1：直接上线 2：需审核后上线
+  `is_deploy` int(11) DEFAULT NULL comment '是否已经部署', # 0：未部署 1：已部署
   `create_time` varchar(20) DEFAULT NULL comment '创建时间', 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

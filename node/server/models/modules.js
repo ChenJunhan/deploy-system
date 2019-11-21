@@ -1,4 +1,7 @@
 const db = require('../../utils/db')
+const Client = require('ssh2').Client
+const request = require('request')
+const { ConnectServer, Shell } = require('../utils/ssh2')
 
 const modules = {
 
@@ -12,7 +15,7 @@ const modules = {
     return result
   },
 
-
+  
   /**
    * 查找模块名是否重复
    * @param {*} mName  模块名
@@ -44,6 +47,49 @@ const modules = {
       result = null
     }
     return result 
+  },
+
+
+  /**
+   * 根据模块id查询数据库中的模块信息
+   * @param {*} mId 模块id
+   * @returns
+   */
+  async getModulesInfo(mId) {
+    let result = await db.queryData('module_list', 'id', mId)
+
+    if (!Array.isArray(result) || result.length === 0) {
+      result = null
+    }
+    return result
+  },
+
+
+  /**
+   * 连接服务器
+   * @param {*} options
+   * @param {*} callback
+   */
+  async connectServer(options, cmd, success) {
+    request({
+      url: 'https://github.com/visionmedia/supertest/commits/master',
+      method: 'GET',
+
+    }, (error, res, body) => {
+      console.log(body)
+    })
+    return new Promise((resolve, reject) => {
+      ConnectServer({
+        host: 'chenjunhan.club',
+        port: 22,
+        username: 'root',
+        password: 'QPZMqpzm123456' 
+      }, conn => {
+        Shell(conn, 'cd /var/www/sleep_data\ngit log --oneline', data => {
+          resolve(data)
+        })
+      }, error => resolve('ERROR: FAIL_CONNECT_SERVER'))
+    })
   }
 }
 
