@@ -15,7 +15,7 @@ const modules = {
     return result
   },
 
-  
+
   /**
    * 查找模块名是否重复
    * @param {*} mName  模块名
@@ -61,7 +61,7 @@ const modules = {
     if (!Array.isArray(result) || result.length === 0) {
       result = null
     }
-    return result
+    return result[0]
   },
 
 

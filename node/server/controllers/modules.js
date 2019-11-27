@@ -2,7 +2,7 @@
  * @Author: ChenJunhan 
  * @Date: 2019-11-11 15:50:45 
  * @Last Modified by: ChenJunhan
- * @Last Modified time: 2019-11-21 17:19:28
+ * @Last Modified time: 2019-11-27 16:12:12
  * 模块管理
 */
 
@@ -177,27 +177,59 @@ class modules {
       return 
     }
 
-    console.log(moduleInfo)
     if (!shell.which('git')) {
       shell.echo('this script requires git')
       shell.exit(1)
     }
-    
 
-    // let connectResult = await moduleService.connectServer()
-    // console.log(connectResult)
-    // if (connectResult.indexOf('FAIL_CONNECT_SERVER') !== -1) {
-    //   result.message = code.ERROR_FAIL_CONNECT_SERVER
-    //   ctx.body = result
-    //   return 
-    // }
-    // if (connectResult.indexOf('No such file or directory') !== -1) {
+    // window本地测试
+    // let cdResult = shell.cd(`git_repository/${moduleInfo['m_name']}`)
+    // if (cdResult.code) {
     //   result.message = code.ERROR_INVALID_DIRECTORY
-    // }
-    // if (connectResult.indexOf('Not a git repository') !== -1) {
-    //   result.message = code.ERROR_NOT_EXIST_GIT_REPOSITORY
+    //   ctx.body = result
+    //   return
     // }
 
+    console.log(moduleInfo)
+    let sshpass = `sshpass -p ${moduleInfo.server_password} ssh ${moduleInfo.server_user}@${moduleInfo.server_address} `
+
+    // 若有分支名参数则是获取提交历史列表
+    if (formData['branch_name']) {
+      let logList = shell.exec(`git log remotes/${formData['branch_name']} --oneline`)
+      if (!logList.code) {
+        logList = logList.split('\n')
+        result.data = logList.slice(0, logList.length - 1) 
+        result.code = 0
+        result.success = true
+      }else {
+        result.message = code.ERROR_INVALID_BRANCH_NAME
+      }
+      ctx.body = result
+      return
+    }
+
+    // 获取分支名列表
+    let branchList = shell.exec(sshpass + `"cd ${formData['directory']} && git branch -r"`)
+
+    // 若登录客户端服务器失败
+    if (branchList.indexOf('Permission denied') !== -1) {
+      result.message = code.ERROR_INVALID_SERVER_ACCOUNT
+      ctx.body = result
+      return
+    }
+    if (branchList.indexOf('Not a git repository') >= 0) {
+      result.message = code.ERROR_NOT_EXIST_GIT_REPOSITORY
+      ctx.body = result
+      return
+    }
+    
+    branchList = branchList.split('\n')
+    branchList = branchList.slice(1, branchList.length - 1)
+    branchList = branchList.map(b => b.trim())
+
+    result.data = branchList
+    result.code = 0
+    result.success = true
     
     ctx.body = result
   }
