@@ -2,7 +2,7 @@
  * @Author: ChenJunhan 
  * @Date: 2019-11-11 15:50:45 
  * @Last Modified by: ChenJunhan
- * @Last Modified time: 2019-11-27 16:12:12
+ * @Last Modified time: 2019-11-27 18:03:47
  * 模块管理
 */
 
@@ -209,7 +209,7 @@ class modules {
     }
 
     // 获取分支名列表
-    let branchList = shell.exec(sshpass + `"cd ${formData['directory']} && git branch -r"`)
+    let branchList = shell.exec(sshpass + `"cd ${moduleInfo['directory']} && git branch -r"`)
 
     // 若登录客户端服务器失败
     if (branchList.indexOf('Permission denied') !== -1) {
