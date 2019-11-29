@@ -2,7 +2,7 @@
  * @Author: ChenJunhan 
  * @Date: 2019-11-11 15:50:45 
  * @Last Modified by: ChenJunhan
- * @Last Modified time: 2019-11-27 18:03:47
+ * @Last Modified time: 2019-11-29 15:27:53
  * 模块管理
 */
 
@@ -34,7 +34,7 @@ class modules {
       server_user: 'required',
       server_password: 'required',
       directory: 'required',
-      u_id: 'required',
+      // u_id: 'required',
       allot_u_id: 'required',
       allot_level: 'required'
     }
@@ -45,6 +45,13 @@ class modules {
       result.message = msg
       ctx.body = result
       return 
+    }
+
+    // 验证是否有添加权限
+    if (ctx.session.level !== 1) {
+      result.message = code.ERROR_NOT_AUTHORITY
+      ctx.body = result
+      return
     }
 
     // 验证模块名是否已经存在
@@ -62,6 +69,7 @@ class modules {
     // 添加新模块
     let createResult = await moduleService.create({
       ...formData,
+      u_id: ctx.session.u_id,
       create_time: Date.now() 
     })
     
@@ -183,19 +191,17 @@ class modules {
     }
 
     // window本地测试
-    // let cdResult = shell.cd(`git_repository/${moduleInfo['m_name']}`)
-    // if (cdResult.code) {
-    //   result.message = code.ERROR_INVALID_DIRECTORY
-    //   ctx.body = result
-    //   return
-    // }
-
-    console.log(moduleInfo)
-    let sshpass = `sshpass -p ${moduleInfo.server_password} ssh ${moduleInfo.server_user}@${moduleInfo.server_address} `
+    let cdResult = shell.cd(`git_repository/${moduleInfo['m_name']}`)
+    if (cdResult.code) {
+      result.message = code.ERROR_INVALID_DIRECTORY
+      ctx.body = result
+      return
+    }
 
     // 若有分支名参数则是获取提交历史列表
     if (formData['branch_name']) {
-      let logList = shell.exec(`git log remotes/${formData['branch_name']} --oneline`)
+      let logList = shell.exec(`git pull && git log remotes/${formData['branch_name']} --oneline`)
+
       if (!logList.code) {
         logList = logList.split('\n')
         result.data = logList.slice(0, logList.length - 1) 
@@ -204,12 +210,15 @@ class modules {
       }else {
         result.message = code.ERROR_INVALID_BRANCH_NAME
       }
+     
+      shell.cd('../..')
       ctx.body = result
       return
     }
 
     // 获取分支名列表
-    let branchList = shell.exec(sshpass + `"cd ${moduleInfo['directory']} && git branch -r"`)
+    let branchList = shell.exec(`git fetch && git branch -r`)
+    shell.cd('../..')
 
     // 若登录客户端服务器失败
     if (branchList.indexOf('Permission denied') !== -1) {

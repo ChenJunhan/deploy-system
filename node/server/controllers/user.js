@@ -2,7 +2,7 @@
  * @Author: ChenJunhan 
  * @Date: 2019-11-04 16:53:39 
  * @Last Modified by: ChenJunhan
- * @Last Modified time: 2019-11-13 14:59:32
+ * @Last Modified time: 2019-11-29 15:23:58
  * 登陆注册
  */
 
@@ -121,7 +121,8 @@ class User {
   
     ctx.session = {
       user: formData['user_name'],
-      u_id: userInfo['id']
+      u_id: userInfo['id'],
+      level: userInfo['level']
     }
     result.data = {
       user_name: userInfo.name,

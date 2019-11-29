@@ -60,6 +60,7 @@ const modules = {
 
     if (!Array.isArray(result) || result.length === 0) {
       result = null
+      return result
     }
     return result[0]
   },

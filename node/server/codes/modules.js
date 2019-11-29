@@ -12,7 +12,9 @@ const code = {
 
   ERROR_INVALID_BRANCH_NAME: '无效分支名',
 
-  ERROR_INVALID_SERVER_ACCOUNT: '无效服务器账户密码'
+  ERROR_INVALID_SERVER_ACCOUNT: '无效服务器账户密码',
+
+  ERROR_NOT_AUTHORITY: '无添加权限',
 }
 
 module.exports = code

@@ -28,7 +28,8 @@ const user = {
       result = null
     }
     return result
-  }
+  },
+
 }
 
 module.exports = user
