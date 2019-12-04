@@ -11,7 +11,10 @@ const modules = {
    * @returns
    */
   async create(model) {
-    let result = await db.insertData('module_list', model)
+    let midResult = await db.query('SELECT MAX(m_id) FROM module_list;')
+    let m_id = midResult[0]['MAX(m_id)']
+    m_id = m_id ? m_id + 1 : 1
+    let result = await db.insertData('module_list', { ...model, m_id })
     return result
   },
 
@@ -56,7 +59,7 @@ const modules = {
    * @returns
    */
   async getModulesInfo(mId) {
-    let result = await db.queryData('module_list', 'id', mId)
+    let result = await db.queryData('module_list', 'm_id', mId)
 
     if (!Array.isArray(result) || result.length === 0) {
       result = null

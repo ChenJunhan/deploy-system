@@ -20,8 +20,13 @@ const deploy = {
    * @returns
    */
   async getList(uId) {
-    let _sql = 'SELECT * FROM deploy_list WHERE u_id = ? OR u_id = any(SELECT allot_u_id FROM module_list WHERE u_id = ?)'
-    let result = await db.query(_sql, [uId, uId, uId, uId])
+    let _sql = `
+      SELECT d1.*, m2.m_name, m2.allot_level 
+      FROM deploy_list d1, module_list m2 
+      WHERE (d1.apply_u_id = ? AND d1.m_id = m2.m_id)
+      OR (m2.u_id = ? AND d1.apply_u_id = m2.allot_u_id AND d1.m_id = m2.m_id)
+    `
+    let result = await db.query(_sql, [uId, uId])
     return result 
   },
 
