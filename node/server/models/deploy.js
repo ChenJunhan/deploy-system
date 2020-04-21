@@ -30,6 +30,32 @@ const deploy = {
     return result 
   },
 
+
+  /**
+   * 修改数据库部署列表的状态
+   * @param {*} dId 申请id
+   * @returns
+   */
+  async updateDeployStatus(dId) {
+    let result = await db.updateData('deploy_list', { deploy: 1 }, 'id', dId)
+    return result
+  },
+
+  
+  /**
+   * 查询部署信息
+   * @param {*} dId
+   * @returns
+   */
+  async getDepolyInfo(dId) {
+    let result = await db.queryData('deploy_list', 'id', dId)
+
+    if (!Array.isArray(result) || result.length === 0) {
+      result = null
+      return result
+    }
+    return result[0]
+  },
 }
 
 module.exports = deploy

@@ -35,8 +35,8 @@ module.exports = {
     return this.query(_sql, [table, values]);
   },
 
-  updateData(table, values, id) {
-    let _sql = "UPDATE ?? SET ? WHERE id = ?";
+  updateData(table, values, option, id) {
+    let _sql = `UPDATE ?? SET ? WHERE ${option} = ?`;
     return this.query(_sql, [table, values, id]);
   },
 

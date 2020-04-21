@@ -6,5 +6,6 @@ const authorize = require('../utils/authorize')
 router.use(authorize)
 router.post('/apply', deployController.apply)
 .post('/getList', deployController.getList)
+.post('/updateServer', deployController.updateServer)
 
 module.exports = router

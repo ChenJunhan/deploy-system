@@ -1,5 +1,6 @@
 const deployModel = require('../models/deploy')
 const moduleModel = require('../models/modules')
+const deployCode = require('../codes/deploy')
 
 const deploy = {
 
@@ -36,6 +37,34 @@ const deploy = {
   },
 
 
+  /**
+   * 同意部署申请，更新线上代码
+   * @param {*} did
+   * @returns
+   */
+  async getModulesInfo(did) {
+
+    // 根据部署id查找对应的部署信息
+    let deployInfo = await deployModel.getDepolyInfo(did)
+    if (!deployInfo) {
+      return deployInfo
+    }
+ 
+    // 根据申请部署的模块id找出模块对应的服务器账号和密码
+    let moduleInfo = await moduleModel.getModulesInfo(deployInfo['m_id'])
+    if (deployInfo) moduleInfo['git_log_hash'] = deployInfo['git_log_hash']
+    return moduleInfo
+  },
+
+
+  /**
+   * 更新部署状态
+   * @param {*} did
+   */
+  async updateDeployStataus(did) {
+    let result = await deployModel.updateDeployStatus(did)
+    return result
+  }
 }
 
 module.exports = deploy

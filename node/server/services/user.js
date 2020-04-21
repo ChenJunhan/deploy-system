@@ -4,6 +4,7 @@
 
 const userModel = require('../models/user')
 const validator = require('../utils/validator')
+const userCode = require('../codes/user')
 
 const user = {
 

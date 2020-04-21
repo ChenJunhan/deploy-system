@@ -75,21 +75,9 @@ const modules = {
    * @param {*} callback
    */
   async connectServer(options, cmd, success) {
-    request({
-      url: 'https://github.com/visionmedia/supertest/commits/master',
-      method: 'GET',
-
-    }, (error, res, body) => {
-      console.log(body)
-    })
     return new Promise((resolve, reject) => {
-      ConnectServer({
-        host: 'chenjunhan.club',
-        port: 22,
-        username: 'root',
-        password: 'QPZMqpzm123456' 
-      }, conn => {
-        Shell(conn, 'cd /var/www/sleep_data\ngit log --oneline', data => {
+      ConnectServer(options, conn => {
+        Shell(conn, cmd, data => {
           resolve(data)
         })
       }, error => resolve('ERROR: FAIL_CONNECT_SERVER'))
