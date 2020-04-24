@@ -46,117 +46,13 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/moduleList',
     children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      path: 'moduleList',
+      name: 'ModuleList',
+      component: () => import('@/views/module/module_list/index'),
+      meta: { title: '模块列表', icon: 'dashboard' }
     }]
-  },
-
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
-      }
-    ]
-  },
-
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
   },
 
   // 404 page must be placed at the end !!!
@@ -178,3 +74,66 @@ export function resetRouter() {
 }
 
 export default router
+
+export const asyncRouterMap = [
+  {
+    path: '/addModule',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'AddModule',
+        component: () => import('@/views/module/add_module/index'),
+        meta: { 
+          title: '添加模块',
+          icon: 'form',
+          roles: [1]
+        }
+      }
+    ]
+  },
+
+  {
+    path: '/account',
+    component: Layout,
+    redirect: '/account/addAccount',
+    meta: { title: '账户管理', icon: 'user' },
+    children: [
+      {
+        path: '/addAccount',
+        name: 'AddAccount',
+        component: () => import('@/views/account/add_account/index'),
+        meta: {
+          title: '添加账户',
+          icon: 'form',
+          roles: [1]
+        }
+      },
+      {
+        path: '/accountList',
+        name: 'AccountList',
+        component: () => import('@/views/account/account_list/index'),
+        meta: {
+          title: '账户列表',
+          icon: 'form',
+          roels: [1]
+        }
+      }
+    ]
+  },
+
+  {
+    path: '/deploy',
+    component: Layout,
+    children: [{
+      path: 'list',
+      name: 'DeployList',
+      component: () => import('@/views/deploy/deploy_list/index'),
+      meta: {
+        title: '部署列表',
+        icon: 'form',
+        roles: [1]
+      }
+    }]
+  },
+]

@@ -2,7 +2,7 @@
  * @Author: ChenJunhan 
  * @Date: 2019-11-04 16:53:39 
  * @Last Modified by: ChenJunhan
- * @Last Modified time: 2019-11-29 15:23:58
+ * @Last Modified time: 2020-04-23 16:29:05
  * 登陆注册
  */
 
@@ -149,6 +149,30 @@ class User {
       code: 0
     }
     ctx.session = null
+    ctx.body = result
+  }
+
+
+  /**
+   * 获取用户信息
+   * @static
+   * @param {*} ctx
+   * @param {*} next
+   * @memberof User
+   */
+  static async getUserInfo(ctx, next) {
+    let result = {
+      success: false,
+      message: '',
+      data: null,
+      code: -1
+    }
+    result.data = ctx.session
+
+    if (ctx.session.user) {
+      result.success = true
+      result.code = 0
+    }
     ctx.body = result
   }
 }
