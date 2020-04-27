@@ -47,17 +47,34 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/moduleList',
-    children: [{
-      path: 'moduleList',
-      name: 'ModuleList',
-      component: () => import('@/views/module/module_list/index'),
-      meta: { title: '模块列表', icon: 'dashboard' }
-    }]
+    children: [
+      {
+        path: 'moduleList',
+        name: 'ModuleList',
+        component: () => import('@/views/module/module_list/index'),
+        meta: { title: '模块列表', icon: 'dashboard' }
+      }, 
+     
+    ]
+  },
+  
+  {
+    path: '/moduleCommit/:moduleId',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/',
+        name: 'ModuleCommit',
+        meta: { title: '申请部署' },
+        component: () => import('@/views/module/commit/index')
+      }
+    ]
   },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
-]
+] 
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support

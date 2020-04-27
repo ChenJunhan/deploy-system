@@ -2,7 +2,7 @@
  * @Author: ChenJunhan 
  * @Date: 2019-11-11 15:50:45 
  * @Last Modified by: ChenJunhan
- * @Last Modified time: 2019-12-06 16:17:45
+ * @Last Modified time: 2020-04-27 17:37:37
  * 模块管理
 */
 
@@ -100,20 +100,9 @@ class modules {
   static async getModulesList(ctx, next) {
     let result = JSON.parse(JSON.stringify(resultModel))
     let formData = ctx.request.body
-    let rules = {
-      u_id: 'required'
-    }
-
-    // 验证请求参数
-    let msg = requestValidate(formData, rules)
-    if (msg) {
-      result.message = msg
-      ctx.body = result
-      return
-    }
 
     // 根据u_id查询模块列表
-    let queryResult = await moduleService.getUserModuleList(formData['u_id'])
+    let queryResult = await moduleService.getUserModuleList(ctx.session.u_id)
     if (queryResult) {
       result.success = true
       result.code = 0

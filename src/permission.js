@@ -26,8 +26,8 @@ router.beforeEach(async(to, from, next) => {
       }
     }
 
+    if (!userInfo) return
     store.commit('permission/SET_ROUTES', userInfo.level)       // 根据权限判断页面路由的显示
-    console.log(store.state.permission.addRouters) 
     router.addRoutes(store.state.permission.addRouters)        
   }
   next()

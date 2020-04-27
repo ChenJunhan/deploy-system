@@ -2,7 +2,7 @@
  * @Author: ChenJunhan 
  * @Date: 2019-11-04 16:53:39 
  * @Last Modified by: ChenJunhan
- * @Last Modified time: 2020-04-23 16:29:05
+ * @Last Modified time: 2020-04-27 16:53:28
  * 登陆注册
  */
 
@@ -165,13 +165,12 @@ class User {
       success: false,
       message: '',
       data: null,
-      code: -1
+      code: 0
     }
-    result.data = ctx.session
-
+    
     if (ctx.session.user) {
-      result.success = true
-      result.code = 0
+      result.data = ctx.session
+      result.success = true 
     }
     ctx.body = result
   }
