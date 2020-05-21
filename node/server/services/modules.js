@@ -26,7 +26,7 @@ const modules = {
       shell.mkdir('git_repository')
       shell.cd('git_repository')
     }
-    let result = shell.exec(`git clone ${gitAddress} ${moduleName}`)
+    let result = shell.exec(`git clone ~/gogs-repositories/${gitAddress.toLowerCase()} ${moduleName}`)
     if (result.code) return false
     return true 
   },

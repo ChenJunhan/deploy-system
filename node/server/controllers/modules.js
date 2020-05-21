@@ -2,7 +2,7 @@
  * @Author: ChenJunhan 
  * @Date: 2019-11-11 15:50:45 
  * @Last Modified by: ChenJunhan
- * @Last Modified time: 2020-04-27 17:37:37
+ * @Last Modified time: 2020-05-21 16:27:22
  * 模块管理
 */
 
@@ -155,7 +155,8 @@ class modules {
     let result = JSON.parse(JSON.stringify(resultModel))
     let formData = ctx.request.body
     let rules = {
-      m_id: 'required'
+      m_id: 'required',
+      // branch_name: 'required',    
     }
 
     // 参数验证
@@ -187,7 +188,7 @@ class modules {
       return
     }
 
-    // 若有分支名参数则是获取提交历史列表
+    // 若有分支名参数则是获取提交历史列表，否则获取分支列表
     if (formData['branch_name']) {
       let logList = shell.exec(`git pull && git log remotes/${formData['branch_name']} --oneline`)
 
@@ -231,6 +232,7 @@ class modules {
     
     ctx.body = result
   }
+
 }
 
 module.exports = modules
